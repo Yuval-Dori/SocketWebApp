@@ -35,7 +35,7 @@ namespace SocketWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _cosmosDbService.AddGuestAsync(guest);
-                return RedirectToAction("AfterGuestEntry"); //change
+                return RedirectToAction("AfterGuestEntry"); 
             }
 
             return View(guest);
