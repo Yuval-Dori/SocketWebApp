@@ -15,6 +15,31 @@ namespace SocketWebApp.Controllers
             _cosmosDbService = cosmosDbUserService;
         }
 
+        public IActionResult LoginPage()
+        {
+            return View("Login");
+        }
+
+        public async Task<string> Login(Credentials credentials)
+        {
+            var user =  await _cosmosDbService.GetUserAsync(credentials.Id);
+            if(user == null)
+            {
+                return "This user Id does not exits in the system, please sign in first";
+            }
+            else
+            {
+                if(user.UserName == credentials.UserName && user.Password == credentials.Password)
+                {
+                    return "Succesful Login";
+                }
+                else
+                {
+                    return "Login Failed, incorrect username or password";
+                }
+            }
+        }
+
         public IActionResult AfterSignUp()
         {
             return View();
