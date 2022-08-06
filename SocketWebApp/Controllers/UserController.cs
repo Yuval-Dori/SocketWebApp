@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SocketWebApp.Models;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Session;
+
 
 namespace SocketWebApp.Controllers
 {
@@ -15,41 +16,138 @@ namespace SocketWebApp.Controllers
             _cosmosDbService = cosmosDbUserService;
         }
 
+        [ActionName("Index")]
+        public async Task<IActionResult> Index()
+        {
+            return View(await _cosmosDbService.GetUsersAsync("SELECT * FROM c"));
+        }
+
         public IActionResult LoginPage()
         {
             return View("Login");
         }
 
-        public async Task<string> Login(Credentials credentials)
+        public async Task<IActionResult> Login(Credentials credentials)
         {
-            var user =  await _cosmosDbService.GetUserAsync(credentials.Id);
-            if(user == null)
+            var user = await _cosmosDbService.GetUserAsync(credentials.Id);
+            if (user == null)
             {
-                return "This user Id does not exits in the system, please sign in first";
+                return View("failedLogin_noUser");
             }
             else
             {
-                if(user.UserName == credentials.UserName && user.Password == credentials.Password)
+                if (user.UserName == credentials.UserName && user.Password == credentials.Password)
                 {
-                    return "Succesful Login";
+                    //set user session here
+                    HttpContext.Session.SetString("userInfo", JsonConvert.SerializeObject(user));
+
+                    return View("AfterSignIn");
                 }
                 else
                 {
-                    return "Login Failed, incorrect username or password";
+                    return View("failedLogin_wrongCredentials");
                 }
             }
         }
+
+
+        public IActionResult Settings()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ActionName("EditPersonal")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditPersonalAsync([Bind("Id,FirstName,LastName,Email,Mobile,CardNumber,Expiry,CVV,UserName,Password")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                await _cosmosDbService.UpdateUserAsync(user.Id, user);
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
+        }
+
+        [ActionName("EditPersonal")]
+        public async Task<ActionResult> EditPersonalAsync()
+        {
+
+            if (HttpContext.Session.GetString("userInfo") != null)
+            {
+                //get user session object
+                var userInfo = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("userInfo"));
+
+                User user = await _cosmosDbService.GetUserAsync(userInfo.Id);
+
+                if (user.Id == null)
+                {
+                    return BadRequest();
+                }
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return View(user);
+            }
+            else
+            {
+                return View("SignInRequest");
+            }
+
+        }
+
+        [HttpPost]
+        [ActionName("EditPayment")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditPaymentAsync([Bind("Id,FirstName,LastName,Email,Mobile,CardNumber,Expiry,CVV,UserName,Password")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                await _cosmosDbService.UpdateUserAsync(user.Id, user);
+                return RedirectToAction("Settings");
+            }
+
+            return View(user);
+        }
+
+        [ActionName("EditPayment")]
+        public async Task<ActionResult> EditPaymentAsync()
+        {
+            if (HttpContext.Session.GetString("userInfo") != null)
+            {
+                var userInfo = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("userInfo"));
+
+                User user = await _cosmosDbService.GetUserAsync(userInfo.Id);
+
+                if (user.Id == null)
+                {
+                    return BadRequest();
+                }
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return View(user);
+            }
+            else
+            {
+                return View("SignInRequest");
+            }
+        }
+
 
         public IActionResult AfterSignUp()
         {
             return View();
         }
 
-        [ActionName("Index")]
-        public async Task<IActionResult> Index()
-        {
-            return View(await _cosmosDbService.GetUsersAsync("SELECT * FROM c"));
-        }
+
 
         [ActionName("Create")]
         public IActionResult Create()

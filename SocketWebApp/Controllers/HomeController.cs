@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SocketWebApp.Models;
 
 namespace SocketWebApp.Controllers;
@@ -13,17 +14,32 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public IActionResult Index(string parameter)
+    {
+        //set parameter session here
+        HttpContext.Session.SetString("parameterInfo", JsonConvert.SerializeObject(parameter));
+        return View();
+    }
+
+    public IActionResult Terms()
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    public string test() //test for getting url parameter, delete this method once done
     {
-        return View();
+        if (HttpContext.Session.GetString("parameterInfo") != null)
+        {
+            var parameter = JsonConvert.DeserializeObject<string>(HttpContext.Session.GetString("parameterInfo"));
+            return "parameter is:" + parameter;
+        }
+        else
+        {
+            return "failed to get parameter";
+        }
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

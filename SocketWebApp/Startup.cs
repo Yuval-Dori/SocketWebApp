@@ -28,6 +28,7 @@ namespace SocketWebApp
             services.AddControllersWithViews();
             services.AddSingleton<ICosmosDbUserService>(InitializeCosmosUserClientInstanceAsync(Configuration.GetSection("CosmosDbUsers")).GetAwaiter().GetResult());
             services.AddSingleton<ICosmosDbGuestService>(InitializeCosmosGuestClientInstanceAsync(Configuration.GetSection("CosmosDbGuests")).GetAwaiter().GetResult());
+            services.AddSession();
         }
 
 
@@ -45,6 +46,9 @@ namespace SocketWebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -56,14 +60,10 @@ namespace SocketWebApp
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{parameter?}");
             });
+
         }
-
-
-        /// <summary>
-        /// Creates a Cosmos DB database and a container with the specified partition key. 
-        /// </summary>
 
         private static async Task<ICosmosDbUserService> InitializeCosmosUserClientInstanceAsync(IConfigurationSection configurationSection)
         {

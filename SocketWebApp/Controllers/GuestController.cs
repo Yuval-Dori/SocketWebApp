@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SocketWebApp.Models;
 
 namespace SocketWebApp.Controllers
@@ -34,6 +35,9 @@ namespace SocketWebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                //set guest session here
+                HttpContext.Session.SetString("guestInfo", JsonConvert.SerializeObject(guest));
+
                 await _cosmosDbService.AddGuestAsync(guest);
                 return RedirectToAction("AfterGuestEntry"); 
             }

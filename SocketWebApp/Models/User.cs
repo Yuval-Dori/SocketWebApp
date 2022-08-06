@@ -35,10 +35,10 @@ namespace SocketWebApp.Models
         [JsonProperty(PropertyName = "CVV")]
         public string CVV { get; set; }
 
-        [JsonProperty(PropertyName = "userName")]
-        public string UserName { get; set; }
+        [JsonProperty(PropertyName = "userName")] //change to be a secret
+        public string UserName { get; set; } 
 
-        [JsonProperty(PropertyName = "password")]
+        [JsonProperty(PropertyName = "password")] //change to be a secret
         public string Password { get; set; }
     }
 }

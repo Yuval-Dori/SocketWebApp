@@ -13,10 +13,12 @@
     <None Remove="Views\User\" />
     <None Remove="Views\Guest\" />
     <None Remove="Views\Device\" />
+    <None Remove="Microsoft.AspNetCore.Session" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.29.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Services\" />
