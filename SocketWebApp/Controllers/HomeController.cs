@@ -14,10 +14,10 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index(string parameter)
+    public IActionResult Index(string address, string device)
     {
         //set parameter session here
-        HttpContext.Session.SetString("parameterInfo", JsonConvert.SerializeObject(parameter));
+        HttpContext.Session.SetString("parameterInfo", JsonConvert.SerializeObject($"{address}/{device}"));
         return View();
     }
 
@@ -30,7 +30,7 @@ public class HomeController : Controller
     {
         if (HttpContext.Session.GetString("parameterInfo") != null)
         {
-            var parameter = JsonConvert.DeserializeObject<string>(HttpContext.Session.GetString("parameterInfo"));
+            var parameter = JsonConvert.DeserializeObject<dynamic>(HttpContext.Session.GetString("parameterInfo"));
             return "parameter is:" + parameter;
         }
         else
