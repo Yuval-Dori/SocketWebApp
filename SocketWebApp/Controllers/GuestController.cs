@@ -38,6 +38,8 @@ namespace SocketWebApp.Controllers
                 //set guest session here
                 HttpContext.Session.SetString("guestInfo", JsonConvert.SerializeObject(guest));
 
+                guest.Id += DateTime.Now.ToString();
+
                 await _cosmosDbService.AddGuestAsync(guest);
                 return RedirectToAction("AfterGuestEntry"); 
             }

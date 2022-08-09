@@ -21,6 +21,12 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Main()
+    {
+        return View();
+
+    }
+
     public IActionResult Terms()
     {
         return View();
@@ -30,8 +36,8 @@ public class HomeController : Controller
     {
         if (HttpContext.Session.GetString("parameterInfo") != null)
         {
-            var parameter = JsonConvert.DeserializeObject<dynamic>(HttpContext.Session.GetString("parameterInfo"));
-            return "parameter is:" + parameter;
+            var parameterInfo = JsonConvert.DeserializeObject<string>(HttpContext.Session.GetString("parameterInfo"));
+            return "parameter is:" + parameterInfo;
         }
         else
         {
@@ -39,7 +45,8 @@ public class HomeController : Controller
         }
     }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

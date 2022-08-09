@@ -24,6 +24,7 @@ namespace SocketWebApp
             {
                 return View("EntryRequest");
             }
+
             else
             {
                 if(HttpContext.Session.GetString("parameterInfo") != null)
