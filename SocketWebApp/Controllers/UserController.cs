@@ -19,7 +19,7 @@ namespace SocketWebApp.Controllers
         [ActionName("Index")]
         public async Task<IActionResult> Index()
         {
-            return View(await _cosmosDbService.GetUsersAsync("SELECT * FROM c"));
+            return View();
         }
 
         public IActionResult LoginPage()
@@ -36,7 +36,7 @@ namespace SocketWebApp.Controllers
             }
             else
             {
-                if (user.UserName == credentials.UserName && user.Password == credentials.Password)
+                if (user.UserName == credentials.UserName && user.Password == credentials.Password) //validate info
                 {
                     //set user session here
                     HttpContext.Session.SetString("userInfo", JsonConvert.SerializeObject(user));
@@ -50,6 +50,14 @@ namespace SocketWebApp.Controllers
             }
         }
 
+        public IActionResult LogOut()
+        {
+            if (HttpContext.Session.GetString("userInfo") != null)
+            {
+                HttpContext.Session.Remove("userInfo");
+            }
+            return RedirectToAction("Main", "Home");
+        }
 
         public IActionResult Settings()
         {
@@ -64,7 +72,7 @@ namespace SocketWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _cosmosDbService.UpdateUserAsync(user.Id, user);
-                return RedirectToAction("Index");
+                return RedirectToAction("Settings", "User");
             }
 
             return View(user);
@@ -108,7 +116,7 @@ namespace SocketWebApp.Controllers
             if (ModelState.IsValid)
             {
                 await _cosmosDbService.UpdateUserAsync(user.Id, user);
-                return RedirectToAction("Settings");
+                return RedirectToAction("Settings","User");
             }
 
             return View(user);
@@ -160,6 +168,9 @@ namespace SocketWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync([Bind("Id,FirstName,LastName,Email,Mobile,CardNumber,Expiry,CVV,UserName,Password")] User user)
         {
+            //set user session here
+            HttpContext.Session.SetString("userInfo", JsonConvert.SerializeObject(user));
+
             if (ModelState.IsValid)
             {
                 await _cosmosDbService.AddUserAsync(user);

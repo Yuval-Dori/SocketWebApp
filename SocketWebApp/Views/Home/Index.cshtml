@@ -1,13 +1,21 @@
 ﻿<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Please choose an action below</p>
+    <h1 class="heading1">Welcome To Smart Socket</h1>
+    <p class="p1">Please choose an action below</p>
     <p>
-        @Html.ActionLink("Continue as Guest", "Create", "Guest")
+        <span class="box">
+            <a class="button-link" href="/Guest/Create" style="text-decoration: none;">Continue as Guest</a>
+        </span>
+
     </p>
     <p>
-        @Html.ActionLink("Sign Up", "Create", "User")
+        <span class="box">
+            <a class="button-link" href="/User/Create" style="text-decoration: none;">Sign Up</a>
+        </span>
+
     </p>
     <p>
-        @Html.ActionLink("Sign In", "LoginPage", "User")
+        <span class="box">
+            <a class="button-link" href="/User/LoginPage" style="text-decoration: none;">Sign In</a>
+        </span>
     </p>
 </div>

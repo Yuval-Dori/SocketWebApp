@@ -5,100 +5,99 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create a new Guest</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="from-center">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="form-design">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
-            </div>
+    <h2 class="heading2">Register As Guest</h2>
+    <p class="p1">Please fill in the following details</p>
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label class="form-label" for="Id">Id</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-editor" } })
+            @Html.ValidationMessageFor(model => model.Id, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        <label class="form-label" for="FirstName">First Name</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-editor" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
+    <div class="form-group">
+        <label class="form-label" for="LastName">Last Name</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-editor" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
         </div>
+    </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Email)
-                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Mobile)
-                    @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CardNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.CardNumber)
-                    @Html.ValidationMessageFor(model => model.CardNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Expiry, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.Expiry)
-                    @Html.ValidationMessageFor(model => model.Expiry, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CVV, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.CVV)
-                    @Html.ValidationMessageFor(model => model.CVV, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+    <div class="form-group">
+        <label class="form-label" for="Email">Email</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-editor" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="form-label" for="Mobile">Mobile</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-editor" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="CardNumber">Credit Card Number</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.CardNumber, new { htmlAttributes = new { @class = "form-editor" } })
+                @Html.ValidationMessageFor(model => model.CardNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="Expiry">Credit Card Number</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Expiry, new { htmlAttributes = new { @class = "form-editor" } })
+                @Html.ValidationMessageFor(model => model.Expiry, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="form-label" for="CVV">CVV</label>
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.CVV, new { htmlAttributes = new { @class = "form-editor" } })
+                @Html.ValidationMessageFor(model => model.CVV, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <p> </p>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="submit-button" />
+        </div>
+    </div>
+</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index", "Home")
-</div>
 <script src="~/bundles/jqueryval"></script>
