@@ -127,7 +127,8 @@ span.box-free:hover {
     background-size: cover;
 }
 
-.nav-text1 {
+
+.nav-item {
     font-family: 'Literata', serif;
     color: #4A4E69;
     font-size: 20px;
@@ -136,7 +137,7 @@ span.box-free:hover {
     text-decoration: none;
 }
 
-.nav-text1:hover {
+.nav-item:hover {
     color: #5E503F
 }
 
