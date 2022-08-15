@@ -23,26 +23,26 @@ public class HomeController : Controller
 
     public IActionResult Main()
     {
-        return View();
+        if (HttpContext.Session.GetString("userInfo") == null && HttpContext.Session.GetString("guestInfo") == null)
+        {
+            return RedirectToAction("MainOut", "Home");
+        }
+        else
+        {
+            return View();
 
+        }
     }
+
+    public IActionResult MainOut()
+    {
+        return View();
+    }
+
 
     public IActionResult Terms()
     {
         return View();
-    }
-
-    public string test() //test for getting url parameter, delete this method once done
-    {
-        if (HttpContext.Session.GetString("parameterInfo") != null)
-        {
-            var parameterInfo = JsonConvert.DeserializeObject<string>(HttpContext.Session.GetString("parameterInfo"));
-            return "parameter is:" + parameterInfo;
-        }
-        else
-        {
-            return "failed to get parameter";
-        }
     }
 
 

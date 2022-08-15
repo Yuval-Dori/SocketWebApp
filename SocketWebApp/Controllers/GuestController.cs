@@ -38,7 +38,15 @@ namespace SocketWebApp.Controllers
                 //set guest session here
                 HttpContext.Session.SetString("guestInfo", JsonConvert.SerializeObject(guest));
 
-                guest.Id += DateTime.Now.ToString();
+                TimeSpan t = DateTime.Now - new DateTime(1970, 1, 1);
+                int secondsSinceEpoch = (int)t.TotalSeconds;
+
+                //anonymize guests
+                guest.Id += secondsSinceEpoch.ToString();
+                guest.FirstName = "***";
+                guest.LastName = "***";
+                guest.Email = "***";
+                guest.Mobile = "***";
 
                 await _cosmosDbService.AddGuestAsync(guest);
                 return RedirectToAction("AfterGuestEntry"); 
